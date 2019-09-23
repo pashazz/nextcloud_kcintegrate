@@ -3,7 +3,6 @@ package utils
 import (
 	"errors"
 	"fmt"
-	"github.com/Nerzal/gocloak/v3"
 	"log"
 	"net/url"
 	"os"
@@ -24,9 +23,4 @@ func GetenvNonEmpty(name string) string {
 		log.Fatalf("%v: not set", name)
 	}
 	return env
-}
-
-func PrintClient (client *gocloak.Client) {
-
-
 }

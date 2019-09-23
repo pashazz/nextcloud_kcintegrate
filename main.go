@@ -2,9 +2,6 @@ package main
 
 import (
 	"crypto/tls"
-	"encoding/json"
-	"github.com/Nerzal/gocloak/v3"
-	gocloak2 "github.com/pashazz/gocloak"
 	"github.com/pashazz/nextcloud_kcintegrate/utils"
 	"log"
 	"net/http"
@@ -37,8 +34,8 @@ func main() {
 
 
 
-	sNextcloudUser := utils.GetenvNonEmpty("NEXTCLOUD_USER")
-	sNextcloudPassword := utils.GetenvNonEmpty("NEXTCLOUD_PASSWORD")
+	sNextcloudUser := utils.GetenvNonEmpty("NEXTCLOUD_ADMIN_USER")
+	sNextcloudPassword := utils.GetenvNonEmpty("NEXTCLOUD_ADMIN_PASSWORD")
 	sLoginName := utils.GetenvNonEmpty("NEXTCLOUD_LOGIN_NAME")
 
 	// Connect to Keycloak
@@ -50,7 +47,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Can't create client on keycloak: %v", err)
 	}
-	clients, err := kc.Client.GetClients(kc.Token, kc.Realm, gocloak2.GetClientsParams(gocloak.GetClientsParams{
+	/*clients, err := kc.Client.GetClients(kc.Token, kc.Realm, gocloak2.GetClientsParams(gocloak.GetClientsParams{
 		ClientID: sClientId}))
 	if err != nil {
 		log.Fatal(err)
@@ -59,9 +56,8 @@ func main() {
 		log.Print(i)
 		marshalled, _ := json.MarshalIndent(client, "", "\t")
 	log.Println(string(marshalled))
-	//	utils.PrintClient(client)
+		} */
 
-	}
 	// Change Nextcloud settings
 	nc, err := utils.ConnectToNextcloud(sNextcloudUrl,sNextcloudUser, sNextcloudPassword, )
 	if err != nil {

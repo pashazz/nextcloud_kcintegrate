@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"gitlab.bertha.cloud/partitio/Nextcloud-Partitio/gonextcloud"
-	"log"
 )
 
 type NextcloudOIDCEntry struct {
@@ -41,18 +40,16 @@ func ConfigureSocialLogin (client *gonextcloud.Client, loginName string, loginTi
 	if err != nil || len(keys) == 0 {
 		return errors.New(fmt.Sprintf("Can't find application '%v'", APP_NAME))
 	}
-	log.Print(keys)
 	data, err := client.AppsConfig().Details(APP_NAME)
 	if err != nil {
 		return errors.New(fmt.Sprintf("Cant find setting %v in %v", KEY_NAME, APP_NAME))
 	}
 	value := data[KEY_NAME]
-	log.Print(value)
 	//Unmarshal a JSON string value
 	var providers []*NextcloudOIDCEntry
 	err = json.Unmarshal([]byte(value), &providers)
 	if err != nil {
-		return errors.New("Unable to read oidc_providers setting")
+		providers = make([]*NextcloudOIDCEntry, 0)
 	}
 	oidcPath := fmt.Sprintf("auth/realms/%v/protocol/openid-connect", realm)
 	newProvider := &NextcloudOIDCEntry{
